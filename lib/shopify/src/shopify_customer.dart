@@ -1,5 +1,6 @@
 import 'package:flutter_simple_shopify/graphql_operations/mutations/customer_address_update.dart';
 import 'package:flutter_simple_shopify/graphql_operations/mutations/customer_update.dart';
+import 'package:flutter_simple_shopify/graphql_operations/queries/get_customer.dart';
 import 'package:flutter_simple_shopify/graphql_operations/queries/get_metafield.dart';
 import 'package:flutter_simple_shopify/mixins/src/shopfiy_error.dart';
 import 'package:flutter_simple_shopify/models/src/product/metafield/metafield.dart';
@@ -95,14 +96,29 @@ class ShopifyCustomer with ShopifyError {
     }
   }
 
-  Future<Metafield> getCustomerMetaFields(String? customerAccessToken) async {
+  Future<Metafield> getCustomerMetaFields(String? customerAccessToken) async{
     // call query to get customer metafields
-    /* final MutationOptions _options = MutationOptions(
+    final MutationOptions _options = MutationOptions(
+        document: gql(getMetaFieldQuery),
+        variables: {
+          'customerAccessToken': customerAccessToken,
+        });
+/*   final WatchQueryOptions _getCustomer = WatchQueryOptions(
+       document: gql(getCustomerQuery),
+       variables: {'customerAccessToken': await customerAccessToken});*/
+    final QueryResult result = (await _graphQLClient!.mutate(_options));
+    checkForError(result);
+
+    return Metafield.fromJson(result.data!['customer']['metafields']);
+  }
+ /* Future<Metafield> getCustomerMetaFields(String? customerAccessToken) async {
+    // call query to get customer metafields
+    *//* final MutationOptions _options = MutationOptions(
         document: gql(getCustomerQuery),
         variables: {
           'customerAccessToken': customerAccessToken,
           //'id': addressId
-        });*/
+        });*//*
     final WatchQueryOptions _getCustomer = WatchQueryOptions(
         document: gql(getMetaFieldQuery),
         variables: {'customerAccessToken': await customerAccessToken});
@@ -110,7 +126,7 @@ class ShopifyCustomer with ShopifyError {
     checkForError(result);
 
     return Metafield.fromJson(result.data!['metafields']);
-    }
+    }*/
 
   /// Creates a address for the customer to which [customerAccessToken] belongs to.
   Future<Address> customerAddressCreate(

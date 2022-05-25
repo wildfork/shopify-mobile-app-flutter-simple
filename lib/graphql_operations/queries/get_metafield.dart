@@ -6,12 +6,16 @@ query($customerAccessToken : String!){
     firstName
     id
     lastName
-   metafields{
-     id
-     key
-     namespace
-     value
-   }
+   metafields(first:250) {
+  edges {
+  node {
+    id
+    key
+    namespace
+    value
+    }
+  }
+}
   }
 }
 ''';
