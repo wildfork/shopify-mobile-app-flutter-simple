@@ -97,12 +97,6 @@ class ShopifyCustomer with ShopifyError {
   }
   Future<dynamic> getCustomerMetaFields(String? customerAccessToken) async{
     // call query to get customer metafields
-    /*final MutationOptions _options = MutationOptions(
-        document: gql(getCustomerQuery),
-        variables: {
-          'customerAccessToken': customerAccessToken,
-          //'id': addressId
-        });*/
     final WatchQueryOptions _getCustomer = WatchQueryOptions(
         document: gql(getCustomerQuery),
         variables: {'customerAccessToken': await customerAccessToken});
