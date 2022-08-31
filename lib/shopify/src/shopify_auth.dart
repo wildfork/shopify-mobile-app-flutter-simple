@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_simple_shopify/mixins/src/shopfiy_error.dart';
 import 'package:graphql/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -141,6 +142,7 @@ class ShopifyAuth with ShopifyError {
     if (deleteThisPartOfCache) {
       _graphQLClient!.cache.writeQuery(_getCustomer.asRequest, data: {});
     }
+    debugPrint(result.exception!.linkException.toString());
     return shopifyUser;
   }
 
