@@ -143,6 +143,7 @@ class ShopifyAuth with ShopifyError {
       _graphQLClient!.cache.writeQuery(_getCustomer.asRequest, data: {});
     }
     debugPrint(result.exception!.linkException.toString());
+
     return shopifyUser;
   }
 
