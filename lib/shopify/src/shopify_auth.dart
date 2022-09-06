@@ -116,7 +116,7 @@ class ShopifyAuth with ShopifyError {
     if (deleteThisPartOfCache) {
       _graphQLClient!.cache.writeQuery(_getCustomer.asRequest, data: {});
     }
-    if(result.exception!=null){
+    if(result.hasException){
       debugPrint('${result.exception!}');
     }
     return shopifyUser;
