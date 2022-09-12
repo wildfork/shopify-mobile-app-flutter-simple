@@ -110,14 +110,15 @@ class ShopifyAuth with ShopifyError {
         document: gql(getCustomerQuery),
         variables: {'customerAccessToken': customerAccessToken});
     final QueryResult result = await _graphQLClient!.query(_getCustomer);
-    checkForError(result);
+    // checkForError(result);
+    if(result.hasException){
+      debugPrint('^^^ ${result.exception!.linkException}');
+    }
     final shopifyUser = ShopifyUser.fromGraphJson(result.data!['customer']);
     await _setShopifyUser(customerAccessToken, shopifyUser);
     if (deleteThisPartOfCache) {
       _graphQLClient!.cache.writeQuery(_getCustomer.asRequest, data: {});
     }
-    debugPrint('${result.exception!.graphqlErrors[0].message}');
-
     return shopifyUser;
   }
 
